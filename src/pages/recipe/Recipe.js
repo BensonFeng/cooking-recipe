@@ -1,19 +1,18 @@
+import { useParams } from "react-router-dom";
+import { useFetch } from "../../hooks/useFetch";
+import { useTheme } from "../../hooks/useTheme";
+
 // styles
 import "./Recipe.css";
 
-import { useFetch } from "../../hooks/useFetch";
-import { useParams } from "react-router-dom";
-
 export default function Recipe() {
   const { id } = useParams();
-  const {
-    data: recipe,
-    isPending,
-    error,
-  } = useFetch(`http://localhost:3000/recipes/${id}`);
+  const url = "http://localhost:3000/recipes/" + id;
+  const { error, isPending, data: recipe } = useFetch(url);
+  const { mode } = useTheme();
 
   return (
-    <div className="recipe">
+    <div className={`recipe ${mode}`}>
       {error && <p className="error">{error}</p>}
       {isPending && <p className="loading">Loading...</p>}
       {recipe && (
